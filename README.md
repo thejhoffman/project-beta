@@ -2,8 +2,8 @@
 
 Team:
 
-* Person 1 - Which microservice?
-* Person 2 - Which microservice?
+* Micheline Doughlin - Which microservice? - Service
+* James Hoffman - Which microservice? - Sales
 
 ## Design
 
