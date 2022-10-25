@@ -33,11 +33,7 @@ class TechnicianForm extends React.Component{
         });
         }
 
-    }
-    inputChange(event) {
-      const value = event.target.value;
-      const name = event.target.name;
-      const
+
     }
     handleChangeName(event){
         const value = event.target.value;
