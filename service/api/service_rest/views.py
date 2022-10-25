@@ -174,7 +174,7 @@ def api_service_appointment(request, pk):
             model = Service.objects.get(id=pk)
             return JsonResponse(
                 model,
-                encoder=ServiceAppointmentEncoder,
+                encoder=ServiceDetailEncoder,
                 safe=False
             )
         except Service.DoesNotExist:
@@ -187,7 +187,7 @@ def api_service_appointment(request, pk):
             model.delete()
             return JsonResponse(
                 model,
-                encoder=ServiceEncoder,
+                encoder=ServiceDetailEncoder,
                 safe=False,
             )
         except Service.DoesNotExist:
@@ -199,7 +199,7 @@ def api_service_appointment(request, pk):
             appointment = Service.objects.get(id=pk)
             return JsonResponse(
                 appointment,
-                encoder=ServiceAppointmentEncoder,
+                encoder=ServiceDetailEncoder,
                 safe=False,
             )
 
