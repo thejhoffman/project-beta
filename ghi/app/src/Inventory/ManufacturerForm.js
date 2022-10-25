@@ -4,7 +4,7 @@ const ManufacturerForm = (props) => {
   const [formData, setFormData] = useState({ name: "" });
 
   const handleFormData = (event) => {
-    setFormData({ [event.target.name]: event.target.value });
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = async (event) => {
