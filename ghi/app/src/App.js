@@ -18,23 +18,21 @@ function App() {
   return (
     <BrowserRouter>
       <Nav />
-      <div className="container">
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/manufacturers" element={<ManufacturerList />} />
-          <Route path="/manufacturers/new" element={<ManufacturerForm />} />
-          <Route path="/vehicle_models" element={<VehicleModelList />} />
-          <Route path="/vehicle_models/new" element={<VehicleModelForm />} />
-          <Route path="/automobiles" element={<AutomobileList />} />
-          <Route path="/automobiles/new" element={<AutomobileForm />} />
-          {/* Service Routes Here */}
-          <Route path="/records" element={<RecordList />} />
-          <Route path="/records/history" element={<RecordHistory />} />
-          <Route path="/customers/new" element={<CustomerForm />} />
-          <Route path="/staff/new" element={<StaffForm />} />
-          <Route path="/records/new" element={<RecordForm />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/manufacturers" element={<ManufacturerList />} />
+        <Route path="/manufacturers/new" element={<ManufacturerForm />} />
+        <Route path="/vehicle_models" element={<VehicleModelList />} />
+        <Route path="/vehicle_models/new" element={<VehicleModelForm />} />
+        <Route path="/automobiles" element={<AutomobileList />} />
+        <Route path="/automobiles/new" element={<AutomobileForm />} />
+        {/* Service Routes Here */}
+        <Route path="/records" element={<RecordList />} />
+        <Route path="/records/history" element={<RecordHistory />} />
+        <Route path="/customers/new" element={<CustomerForm />} />
+        <Route path="/staff/new" element={<StaffForm />} />
+        <Route path="/records/new" element={<RecordForm />} />
+      </Routes>
     </BrowserRouter>
   );
 };
