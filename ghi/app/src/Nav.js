@@ -16,13 +16,13 @@ function Nav() {
               </div>
               <div className="dropdown-menu" aria-labelledby="navbarInventoryDropdown">
                 <NavLink className="dropdown-item" to="/manufacturers">Manufacturers list</NavLink>
-                <NavLink className="dropdown-item" to="/manufacturers/new">Add new manufacturer</NavLink>
+                <NavLink className="dropdown-item" to="/new_manufacturer">Add new manufacturer</NavLink>
                 <div className="dropdown-divider"></div>
                 <NavLink className="dropdown-item" to="/vehicle_models">Vehicle models List</NavLink>
-                <NavLink className="dropdown-item" to="/vehicle_models/new">Add new vehicle model</NavLink>
+                <NavLink className="dropdown-item" to="/new_vehicle_model">Add new vehicle model</NavLink>
                 <div className="dropdown-divider"></div>
                 <NavLink className="dropdown-item" to="/automobiles">Automobiles list</NavLink>
-                <NavLink className="dropdown-item" to="/automobiles/new">Add new automobile</NavLink>
+                <NavLink className="dropdown-item" to="/new_automobile">Add new automobile</NavLink>
               </div>
             </li>
             <li className="nav-item dropdown">
@@ -43,12 +43,12 @@ function Nav() {
               </div>
               <div className="dropdown-menu" aria-labelledby="navbarSalesDropdown">
                 <NavLink className="dropdown-item" to="/records">All sale records</NavLink>
-                <NavLink className="dropdown-item" to="/records/history">Sale history</NavLink>
+                <NavLink className="dropdown-item" to="/record_history">Sale history</NavLink>
                 <div className="dropdown-divider"></div>
-                <NavLink className="dropdown-item" to="/customers/new">New customer</NavLink>
-                <NavLink className="dropdown-item" to="/staff/new">New sales person</NavLink>
+                <NavLink className="dropdown-item" to="/new_customer">New customer</NavLink>
+                <NavLink className="dropdown-item" to="/new_sales_person">New sales person</NavLink>
                 <div className="dropdown-divider"></div>
-                <NavLink className="dropdown-item" to="/records/new">Create sales record</NavLink>
+                <NavLink className="dropdown-item" to="/new_record">Create sales record</NavLink>
               </div>
             </li>
           </ul>
