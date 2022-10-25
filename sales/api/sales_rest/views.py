@@ -208,24 +208,39 @@ def api_records(request):
             {"records": records},
             encoder=SalesRecordListEncoder,
         )
-    else:  # TODO: Add try, except for error handling
-        content = json.loads(request.body)
+    else:
+        try:
+            content = json.loads(request.body)
 
-        vin_num = content["vin"]
-        sales_person_id = content["sales_person"]
-        customer_id = content["customer"]
+            vin_num = content["vin"]
+            sales_person_id = content["sales_person"]
+            customer_id = content["customer"]
 
-        content["vin"] = AutomobileVO.objects.get(vin=vin_num)
-        content["sales_person"] = SalesPerson.objects.get(id=sales_person_id)
-        content["customer"] = SalesCustomer.objects.get(id=customer_id)
+            content["vin"] = AutomobileVO.objects.get(vin=vin_num)
+            content["sales_person"] = SalesPerson.objects.get(id=sales_person_id)
+            content["customer"] = SalesCustomer.objects.get(id=customer_id)
 
-        record = SalesRecord.objects.create(**content)
-        # TODO: Add try, except for error handling
-        return JsonResponse(
-            record,
-            encoder=SalesRecordDetailEncoder,
-            safe=False,
-        )
+            record = SalesRecord.objects.create(**content)
+            return JsonResponse(
+                record,
+                encoder=SalesRecordDetailEncoder,
+                safe=False,
+            )
+        except (
+            AutomobileVO.DoesNotExist,
+            SalesPerson.DoesNotExist,
+            SalesCustomer.DoesNotExist,
+        ) as e:
+            message = "Error has occurred."
+            if "AutomobileVO" in str(e):
+                message = "Invalid vin number."
+            if "SalesPerson" in str(e):
+                message = "Invalid sales person id"
+            if "SalesCustomer" in str(e):
+                message = "Invalid customer id"
+            response = JsonResponse({"message": message})
+            response.status_code = 404
+            return response
 
 
 @require_http_methods(["GET", "PUT", "DELETE"])
@@ -280,8 +295,21 @@ def api_record(request, pk):
                 encoder=SalesRecordDetailEncoder,
                 safe=False,
             )
-        # TODO: Add try, except for error handling
-        except SalesRecord.DoesNotExist:
-            response = JsonResponse({"message": "Does not exist"})
+        except (
+            SalesRecord.DoesNotExist,
+            AutomobileVO.DoesNotExist,
+            SalesPerson.DoesNotExist,
+            SalesCustomer.DoesNotExist,
+        ) as e:
+            message = "Error has occurred."
+            if "SalesRecord" in str(e):
+                message = "Record does not exist."
+            if "AutomobileVO" in str(e):
+                message = "Invalid vin number."
+            if "SalesPerson" in str(e):
+                message = "Invalid sales person id"
+            if "SalesCustomer" in str(e):
+                message = "Invalid customer id"
+            response = JsonResponse({"message": message})
             response.status_code = 404
             return response
