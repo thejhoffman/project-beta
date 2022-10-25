@@ -58,7 +58,7 @@ const StaffForm = (props) => {
                   className="form-control"
                   placeholder="employee_number"
                   required
-                  type="text"
+                  type="number"
                   id="employee_number"
                   name="employee_number"
                 />
