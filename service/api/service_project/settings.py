@@ -30,6 +30,8 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
+    "corsheaders",
+    "service_rest.apps.ServiceRestConfig"
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
