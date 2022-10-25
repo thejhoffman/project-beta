@@ -16,16 +16,16 @@ const ManufacturerList = (props) => {
   return (
     <div className="container mt-2">
       <h1>Manufacturers</h1>
-      <table class="table table-striped">
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>Name</th>
           </tr>
         </thead>
         <tbody>
-          {manufacturers.map(manufacturer => {
+          {manufacturers.map((manufacturer, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <td>{manufacturer.name}</td>
               </tr>
             );
