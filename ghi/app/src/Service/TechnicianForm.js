@@ -31,9 +31,7 @@ class TechnicianForm extends React.Component{
                 name:"",
                 employee_id:"",
         });
-        }
-
-
+      }
     }
     handleChangeName(event){
         const value = event.target.value;
