@@ -8,6 +8,8 @@ import VehicleModelForm from './inventory/VehicleModelForm';
 import AutomobileList from './inventory/AutomobileList';
 import AutomobileForm from './inventory/AutomobileForm';
 // Service imports here
+import TechnicianForm from './Service/TechnicianForm';
+
 import RecordList from './sales/RecordList';
 import RecordHistory from './sales/RecordHistory';
 import CustomerForm from './sales/CustomerForm';
@@ -18,21 +20,25 @@ function App() {
   return (
     <BrowserRouter>
       <Nav />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/manufacturers" element={<ManufacturerList />} />
-        <Route path="/new_manufacturer" element={<ManufacturerForm />} />
-        <Route path="/vehicle_models" element={<VehicleModelList />} />
-        <Route path="/new_vehicle_model" element={<VehicleModelForm />} />
-        <Route path="/automobiles" element={<AutomobileList />} />
-        <Route path="/new_automobile" element={<AutomobileForm />} />
-        {/* Service Routes Here */}
-        <Route path="/records" element={<RecordList />} />
-        <Route path="/record_history" element={<RecordHistory />} />
-        <Route path="/new_customer" element={<CustomerForm />} />
-        <Route path="/new_sales_person" element={<StaffForm />} />
-        <Route path="/new_record" element={<RecordForm />} />
-      </Routes>
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/manufacturers" element={<ManufacturerList />} />
+          <Route path="/manufacturers/new" element={<ManufacturerForm />} />
+          <Route path="/vehicle_models" element={<VehicleModelList />} />
+          <Route path="/vehicle_models/new" element={<VehicleModelForm />} />
+          <Route path="/automobiles" element={<AutomobileList />} />
+          <Route path="/automobiles/new" element={<AutomobileForm />} />
+          {/* Service Routes Here */}
+          <Route path="/technicans/new" element={<TechnicianForm />} />
+          <Route path="/technnicans" element={<TechnicianList />} />
+          <Route path="/records" element={<RecordList />} />
+          <Route path="/records/history" element={<RecordHistory />} />
+          <Route path="/customers/new" element={<CustomerForm />} />
+          <Route path="/staff/new" element={<StaffForm />} />
+          <Route path="/records/new" element={<RecordForm />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 };
