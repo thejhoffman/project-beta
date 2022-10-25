@@ -15,7 +15,7 @@ class TechnicianForm extends React.Component{
         event.preventDefault();
         const data = {...this.state}
 
-        const technicianUrl = 'http://localhost:8080/api/technicians';
+        const technicianUrl = 'http://localhost:8080/api/technicians/';
         const fetchConfig = {
             method: "post",
             body: JSON.stringify(data),

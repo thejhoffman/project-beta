@@ -52,7 +52,7 @@ class ServiceDetailEncoder(ModelEncoder):
         "technician": TechnicianEncoder(),
     }
 
-# Get techinician, create technician
+# Get techinician list, create technician
 @require_http_methods(["GET", "POST"])
 def api_technicians(request):
     if request.method == "GET":
@@ -64,7 +64,7 @@ def api_technicians(request):
     else:
         try:
             content = json.loads(request.body)
-            technician = Technician.object.create(**content)
+            technician = Technician.objects.create(**content)
             return JsonResponse(
                 technician,
                 encoder=TechnicianEncoder,
@@ -139,19 +139,19 @@ def api_service_appointments(request):
                 response.status_code = 404
                 return response
 # check if vin was entered, if not available throw VinNotValid  error and return with error message
-            try:
-                vin = content["vin"]
-                automobile = AutomobileVO.objects.get(vin=vin)
-                if automobile:
-                    sale_status = automobile.sale_status
-                    if sale_status == 'Available':
-                        response = JsonResponse (
-                            {"message": "VIN number is available in our inventory. Does not belong to customer"}
-                        )
-                        response.status_code = 400
-                        return response
-            except:
-                pass
+            # try:
+            #     vin = content["vin"]
+            #     automobile = AutomobileVO.objects.get(vin=vin)
+            #     if automobile:
+            #         sale_status = automobile.sale_status
+            #         if sale_status == 'Available':
+            #             response = JsonResponse (
+            #                 {"message": "VIN number is available in our inventory. Does not belong to customer"}
+            #             )
+            #             response.status_code = 400
+            #             return response
+            # except:
+            #     pass
             service_appointment = Service.objects.create(**content)
             return JsonResponse(
                 service,
