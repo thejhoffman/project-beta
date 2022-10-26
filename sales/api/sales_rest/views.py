@@ -146,9 +146,13 @@ def api_customer(request, pk):
 
 
 @require_http_methods(["GET", "POST"])
-def api_records(request):
+def api_records(request, staff_id=None):
     if request.method == "GET":
-        records = SalesRecord.objects.all()
+        if staff_id is not None:
+            sales_person = SalesPerson.objects.get(id=staff_id)
+            records = SalesRecord.objects.filter(sales_person=sales_person)
+        else:
+            records = SalesRecord.objects.all()
         return JsonResponse(
             {"records": records},
             encoder=SalesRecordListEncoder,
