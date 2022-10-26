@@ -27,7 +27,8 @@ class ServiceListEncoder(ModelEncoder):
     properties = [
         "vin",
         "customer_name",
-        "appointment_date_time",
+        "date",
+        "time",
         "technician",
         "reason",
         "is_vip",
@@ -42,7 +43,8 @@ class ServiceDetailEncoder(ModelEncoder):
         "id",
         "vin",
         "customer_name",
-        "appointment_date_time",
+        "date",
+        "time"
         "technician",
         "reason",
         "finished",
@@ -121,23 +123,40 @@ def api_technician(request, pk):
 @require_http_methods(["GET", "POST"])
 def api_service_appointments(request):
     if request.method == "GET":
-        service = Service.objects.all()
+        services = Service.objects.all()
         return JsonResponse(
-            {"services": service},
+            {"services": services},
             encoder=ServiceDetailEncoder,
-            sale=False,
+            safe=False,
         )
     else:
+        content = json.loads(request.body)
         try:
-            content = json.loads(request.body)
-            employee_id = content["technician"]
-            try:
-                technician = Technician.objects.get(employee_id=employee_id)
-                content["technician"] = technician
-            except Technician.DoesNotExist:
-                response = JsonResponse({"message": "Technician does not exist !"})
-                response.status_code = 404
-                return response
+            technician_id = content["technician"]
+            technician = Technician.objects.get(employee_id= technician_id)
+            content["technician"] = technician
+
+        except Technician.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid technician id"},
+                status = 400,
+            )
+        return JsonResponse(
+            technician,
+            encoder=TechnicianEncoder,
+            safe=False,
+        )
+
+
+            # content = json.loads(request.body)
+            # employee_id = content["technician"]
+            # try:
+            #     technician = Technician.objects.get(employee_id=employee_id)
+            #     content["technician"] = technician
+            # except Technician.DoesNotExist:
+            #     response = JsonResponse({"message": "Technician does not exist !"})
+            #     response.status_code = 404
+            #     return response
 # check if vin was entered, if not available throw VinNotValid  error and return with error message
             # try:
             #     vin = content["vin"]
@@ -152,19 +171,19 @@ def api_service_appointments(request):
             #             return response
             # except:
             #     pass
-            service_appointment = Service.objects.create(**content)
-            return JsonResponse(
-                service,
-                encoder=ServiceDetailEncoder,
-                safe=False,
+        #     service_appointment = Service.objects.create(**content)
+        #     return JsonResponse(
+        #         service,
+        #         encoder=ServiceDetailEncoder,
+        #         safe=False,
 
-            )
-        except:
-                response = JsonResponse(
-                    {"message": "Could not create the appointment."}
-                )
-                response.status_code = 400
-                return response
+        #     )
+        # except:
+        #         response = JsonResponse(
+        #             {"message": "Could not create the appointment."}
+        #         )
+        #         response.status_code = 400
+        #         return response
 
 # "Detail" service request
 @require_http_methods(["DELETE", "GET", "POST"])

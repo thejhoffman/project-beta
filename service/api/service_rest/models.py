@@ -18,6 +18,7 @@ class Service(models.Model):
         related_name="appointment",
         on_delete=models.CASCADE
     )
+    customer = models.CharField(max_length=100)
     date = models.DateField()
     time = models.TimeField()
     technician = models.ForeignKey(
