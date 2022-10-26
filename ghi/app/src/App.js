@@ -34,7 +34,7 @@ function App() {
           <Route path="/automobiles" element={<AutomobileList />} />
           <Route path="/new_automobile" element={<AutomobileForm />} />
           {/* Service Routes */}
-          <Route path="/new_technician" element={<TechnicianForm />} />
+          <Route path="/technicians/new" element={<TechnicianForm />} />
           <Route path="/technicians" element={<TechnicianList />} />
           <Route path="/services/new" element={<ServiceForm />} />
           {/* Sales Routes */}
