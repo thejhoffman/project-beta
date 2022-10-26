@@ -15,6 +15,7 @@ class SalesPersonListEncoder(ModelEncoder):
     properties = [
         "id",
         "name",
+        "employee_number",
     ]
 
 
