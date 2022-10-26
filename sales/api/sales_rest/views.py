@@ -2,72 +2,15 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 import json
 
-from common.json import ModelEncoder
+from .encoders import (
+    SalesPersonListEncoder,
+    SalesPersonDetailEncoder,
+    SalesCustomerListEncoder,
+    SalesCustomerDetailEncoder,
+    SalesRecordListEncoder,
+    SalesRecordDetailEncoder,
+)
 from .models import SalesPerson, SalesCustomer, SalesRecord, AutomobileVO
-
-
-class SalesPersonListEncoder(ModelEncoder):
-    model = SalesPerson
-    properties = [
-        "id",
-        "name",
-    ]
-
-
-class SalesPersonDetailEncoder(ModelEncoder):
-    model = SalesPerson
-    properties = [
-        "id",
-        "name",
-        "employee_number",
-    ]
-
-
-class SalesCustomerListEncoder(ModelEncoder):
-    model = SalesCustomer
-    properties = [
-        "id",
-        "name",
-    ]
-
-
-class SalesCustomerDetailEncoder(ModelEncoder):
-    model = SalesCustomer
-    properties = [
-        "id",
-        "name",
-        "address",
-        "phone_number",
-    ]
-
-
-class SalesRecordListEncoder(ModelEncoder):
-    model = SalesRecord
-    properties = [
-        "price",
-    ]
-
-    def get_extra_data(self, o):
-        return {
-            "vin": str(o.vin),
-            "sales_person": str(o.sales_person),
-            "customer": str(o.customer),
-        }
-
-
-class SalesRecordDetailEncoder(ModelEncoder):
-    model = SalesRecord
-    properties = [
-        "id",
-        "price",
-    ]
-
-    def get_extra_data(self, o):
-        return {
-            "vin": str(o.vin),
-            "sales_person": str(o.sales_person),
-            "customer": str(o.customer),
-        }
 
 
 @require_http_methods(["GET", "POST"])
