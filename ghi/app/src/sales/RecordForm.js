@@ -141,7 +141,7 @@ const RecordForm = (props) => {
                 <label htmlFor="price">Price</label>
               </div>
 
-              <button className="btn btn-primary">Add</button>
+              <button className="btn btn-primary">Create</button>
             </form>
           </div>
         </div>
