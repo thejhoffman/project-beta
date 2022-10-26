@@ -3,65 +3,18 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .models import AutomobileVO, Technician, Service
 from common.json import ModelEncoder
-from datetime import datetime
+from .encoders import AutomobileVO, TechnicianEncoder, ServiceDetailEncoder, ServiceListEncoder
 import json
 
-# Create your views here.
 
-class AutomobileVOEncoder(ModelEncoder):
-    model = AutomobileVO
-    properties =[
-        "vip",
-        "vin"
-    ]
-
-class TechnicianEncoder(ModelEncoder):
-    model = Technician
-    properties = [
-        "name",
-        "employee_id",
-    ]
-
-class ServiceListEncoder(ModelEncoder):
-    model = Service
-    properties = [
-        "vin",
-        "customer_name",
-        "date",
-        "time",
-        "technician",
-        "reason",
-        "is_vip",
-    ]
-    encoders = {
-        "technician": TechnicianEncoder(),
-    }
-
-class ServiceDetailEncoder(ModelEncoder):
-    model = Service
-    properties = [
-        "id",
-        "vin",
-        "customer_name",
-        "date",
-        "time"
-        "technician",
-        "reason",
-        "finished",
-    ]
-    encoders = {
-        "vin": AutomobileVOEncoder(),
-        "technician": TechnicianEncoder(),
-    }
-
-# Get techinician list, create technician
+# Get techinician , create technician
 @require_http_methods(["GET", "POST"])
 def api_technicians(request):
     if request.method == "GET":
         technicians = Technician.objects.all()
         return JsonResponse(
-        {"technicians": technicians},
-        encoder = TechnicianEncoder,
+            {"technicians": technicians},
+            encoder=TechnicianEncoder,
         )
     else:
         try:
@@ -80,6 +33,8 @@ def api_technicians(request):
             return response
 
 # Update technician. Primary Key
+
+
 @require_http_methods(["DELETE", "GET", "PUT"])
 def api_technician(request, pk):
     if request.method == "GET":
@@ -120,6 +75,8 @@ def api_technician(request, pk):
             return response
 
 # Get service request, create service request
+
+
 @require_http_methods(["GET", "POST"])
 def api_service_appointments(request):
     if request.method == "GET":
@@ -130,48 +87,48 @@ def api_service_appointments(request):
             safe=False,
         )
     else:
-        # i think i just figured it out, my service form does not have a technician
-        # but I am trying to add one where it doesn't exist -_-
-        content = json.loads(request.body)
-        technician = Technician.objects.get(employee_id=content["employee_id"])
-        content["technician"] = technician
         try:
-
+            # i think i just figured it out, my service form does not have a technician
+            # but I am trying to add one where it doesn't exist -_-
+            content = json.loads(request.body)
+            technician = Technician.objects.get(
+                employee_id=content["employee_id"])
+            content["technician"] = technician
+            service = Service.objects.create(**content)
+            return JsonResponse(
+                service,
+                encoder=ServiceDetailEncoder,
+                safe=False,
+            )
         except Technician.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid technician id"},
-                status = 400,
+                status=400,
             )
-        return JsonResponse(
-            service,
-            encoder=ServiceDetailEncoder,
-            safe=False,
-        )
 
-
-            # content = json.loads(request.body)
-            # employee_id = content["technician"]
-            # try:
-            #     technician = Technician.objects.get(employee_id=employee_id)
-            #     content["technician"] = technician
-            # except Technician.DoesNotExist:
-            #     response = JsonResponse({"message": "Technician does not exist !"})
-            #     response.status_code = 404
-            #     return response
+        # content = json.loads(request.body)
+        # employee_id = content["technician"]
+        # try:
+        #     technician = Technician.objects.get(employee_id=employee_id)
+        #     content["technician"] = technician
+        # except Technician.DoesNotExist:
+        #     response = JsonResponse({"message": "Technician does not exist !"})
+        #     response.status_code = 404
+        #     return response
 # check if vin was entered, if not available throw VinNotValid  error and return with error message
-            # try:
-            #     vin = content["vin"]
-            #     automobile = AutomobileVO.objects.get(vin=vin)
-            #     if automobile:
-            #         sale_status = automobile.sale_status
-            #         if sale_status == 'Available':
-            #             response = JsonResponse (
-            #                 {"message": "VIN number is available in our inventory. Does not belong to customer"}
-            #             )
-            #             response.status_code = 400
-            #             return response
-            # except:
-            #     pass
+        # try:
+        #     vin = content["vin"]
+        #     automobile = AutomobileVO.objects.get(vin=vin)
+        #     if automobile:
+        #         sale_status = automobile.sale_status
+        #         if sale_status == 'Available':
+        #             response = JsonResponse (
+        #                 {"message": "VIN number is available in our inventory. Does not belong to customer"}
+        #             )
+        #             response.status_code = 400
+        #             return response
+        # except:
+        #     pass
         #     service_appointment = Service.objects.create(**content)
         #     return JsonResponse(
         #         service,
@@ -187,6 +144,8 @@ def api_service_appointments(request):
         #         return response
 
 # "Detail" service request
+
+
 @require_http_methods(["DELETE", "GET", "POST"])
 def api_service_appointment(request, pk):
     if request.method == "GET":
