@@ -86,9 +86,9 @@ def api_service_appointments(request):
             safe=False,
         )
     else:
-            # i think i just figured it out, my service form does not have a technician
-            # but I am trying to add one where it doesn't exist -_-
-            content = json.loads(request.body)
+        # i think i just figured it out, my service form does not have a technician
+        # but I am trying to add one where it doesn't exist -_-
+        content = json.loads(request.body)
         try:
             technician = Technician.objects.get(
                 employee_id=content["employee_id"])
@@ -102,10 +102,10 @@ def api_service_appointments(request):
                 encoder=ServiceDetailEncoder,
                 safe=False,
             )
-    except Technician.DoesNotExist:
-        return JsonResponse(
-            {"message": "Invalid technician id"},
-            status=400,
+        except Technician.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid technician id"},
+                status=400,
             )
 
         # content = json.loads(request.body)
