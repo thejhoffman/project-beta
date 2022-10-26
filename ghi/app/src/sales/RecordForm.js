@@ -10,13 +10,15 @@ const RecordForm = (props) => {
   const [automobiles, setAutomobiles] = useState([]);
   const [staff, setStaff] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [vinsList, setVinsList] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const urls = [
         'http://localhost:8100/api/automobiles/',
         'http://localhost:8090/api/sales/staff/',
-        'http://localhost:8090/api/sales/customers/'
+        'http://localhost:8090/api/sales/customers/',
+        'http://localhost:8090/api/sales/records/'
       ];
       const requests = urls.map(url => fetch(url));
       const responses = await Promise.all(requests);
@@ -26,6 +28,7 @@ const RecordForm = (props) => {
           if (data.autos) setAutomobiles(data.autos);
           if (data.staff) setStaff(data.staff);
           if (data.customers) setCustomers(data.customers);
+          if (data.records) setVinsList(data.records.map(record => record.vin.vin));
         }
       });
     }
@@ -50,6 +53,7 @@ const RecordForm = (props) => {
 
     const response = await fetch(url, fetchConfig);
     if (response.ok) {
+      setVinsList([...vinsList, formData.vin]);
       setFormData({
         vin: "",
         sales_person: "",
@@ -76,13 +80,15 @@ const RecordForm = (props) => {
                   name="vin"
                 >
                   <option value="">Choose an automobile</option>
-                  {automobiles.map(auto => {
-                    return (
-                      <option key={auto.id} value={auto.vin}>
-                        {`${auto.year} ${auto.model.manufacturer.name} ${auto.model.name} (${auto.vin})`}
-                      </option>
-                    );
-                  })}
+                  {automobiles
+                    .filter(auto => !vinsList.includes(auto.vin))
+                    .map(auto => {
+                      return (
+                        <option key={auto.id} value={auto.vin}>
+                          {`${auto.year} ${auto.model.manufacturer.name} ${auto.model.name} (${auto.vin})`}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
 
