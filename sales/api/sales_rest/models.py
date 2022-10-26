@@ -19,7 +19,7 @@ class SalesPerson(models.Model):
         return f"{self.name}"
 
     def get_api_url(self):
-        return reverse("api_person", kwargs={"pk": self.pk})
+        return reverse("api_show_person", kwargs={"pk": self.pk})
 
 
 class SalesCustomer(models.Model):
@@ -35,7 +35,7 @@ class SalesCustomer(models.Model):
         return f"{self.name}"
 
     def get_api_url(self):
-        return reverse("api_customer", kwargs={"pk": self.pk})
+        return reverse("api_show_customer", kwargs={"pk": self.pk})
 
 
 class SalesRecord(models.Model):
@@ -60,4 +60,4 @@ class SalesRecord(models.Model):
         return f"Sale of {self.vin} by {self.sales_person}"
 
     def get_api_url(self):
-        return reverse("api_record", kwargs={"pk": self.pk})
+        return reverse("api_show_record", kwargs={"pk": self.pk})
