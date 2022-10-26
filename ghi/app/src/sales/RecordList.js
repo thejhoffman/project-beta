@@ -28,12 +28,15 @@ const RecordList = (props) => {
         </thead>
         <tbody>
           {records.map((record, index) => {
+            const price = Number(record.price).toLocaleString(
+              'en-US', { maximumFractionDigits: 2 }
+            );
             return (
               <tr key={index}>
                 <td>{record.sales_person}</td>
                 <td>{record.customer}</td>
                 <td>{record.vin}</td>
-                <td>{record.price}</td>
+                <td>{`$${price}`}</td>
               </tr>
             );
           })}
