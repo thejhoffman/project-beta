@@ -45,8 +45,8 @@ function Nav() {
                 <NavLink className="dropdown-item" to="/records">All sale records</NavLink>
                 <NavLink className="dropdown-item" to="/record_history">Sale history</NavLink>
                 <div className="dropdown-divider"></div>
-                <NavLink className="dropdown-item" to="/new_customer">New customer</NavLink>
-                <NavLink className="dropdown-item" to="/new_sales_person">New sales person</NavLink>
+                <NavLink className="dropdown-item" to="/new_customer">Add new customer</NavLink>
+                <NavLink className="dropdown-item" to="/new_sales_person">Add new sales person</NavLink>
                 <div className="dropdown-divider"></div>
                 <NavLink className="dropdown-item" to="/new_record">Create sales record</NavLink>
               </div>
