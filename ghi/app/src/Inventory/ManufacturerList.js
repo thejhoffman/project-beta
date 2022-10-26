@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const ManufacturerList = (props) => {
   const [manufacturers, setManufacturers] = useState([]);
+
   useEffect(() => {
     async function fetchData() {
       const response = await fetch('http://localhost:8100/api/manufacturers/');
