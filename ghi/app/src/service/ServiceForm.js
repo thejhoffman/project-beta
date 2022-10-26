@@ -37,7 +37,7 @@ class ServiceForm extends React.Component {
     const data = { ...this.state };
     const employee_id = data.technician;
     data.employee_id = employee_id;
-    delete data.techinican;
+    delete data.technican;
     delete data.technicians;
     const serviceUrl = 'http://localhost:8080/api/services/';
     const fetchConfig = {

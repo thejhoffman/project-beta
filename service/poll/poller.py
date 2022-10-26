@@ -1,4 +1,3 @@
-from service_rest.models import AutomobileVO
 import django
 import os
 import sys
@@ -12,21 +11,19 @@ django.setup()
 
 # Import models from service_rest, here.
 # from service_rest.models import Something
+from service_rest.models import AutomobileVO
 
 
 def poll():
     while True:
-        print('Service poller polling for data')
+        print("Service poller polling for data")
         try:
-            url = 'http://inventory-api:8000/api/automobiles/'
+            url = "http://inventory-api:8000/api/automobiles/"
             response = requests.get(url)
             content = json.loads(response.content)
             for automobile in content["autos"]:
                 AutomobileVO.objects.update_or_create(
-                    import_href=automobile["href"],
-                    default={
-                        "vins": automobile["vin"]
-                    }
+                    import_href=automobile["href"], defaults={"vin": automobile["vin"]}
                 )
             print("Done importing automobile data")
         except Exception as e:
