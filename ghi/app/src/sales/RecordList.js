@@ -33,9 +33,9 @@ const RecordList = (props) => {
             );
             return (
               <tr key={index}>
-                <td>{record.sales_person}</td>
-                <td>{record.customer}</td>
-                <td>{record.vin}</td>
+                <td>{record.sales_person.name}</td>
+                <td>{record.customer.name}</td>
+                <td>{record.vin.vin}</td>
                 <td>{`$${price}`}</td>
               </tr>
             );
