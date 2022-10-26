@@ -1,18 +1,18 @@
-import React from 'react'
+import React from 'react';
 
-class ServiceHistory extends React.Component{
-    constructor(props){
+class ServiceHistory extends React.Component {
+    constructor (props) {
         super(props);
         this.state = {
-            vin:"",
-            appointments:[],
+            vin: "",
+            appointments: [],
             noAppointments: false,
 
         };
         this.handleVinChange = this.handleVinChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
     }
-    async handleSearch(event){
+    async handleSearch(event) {
         event.preventDefault();
         const searchUrl = 'http://localhost:8080/api/service_appointments/vin/${this.state.vin}/';
         const fetchConfig = {
@@ -22,23 +22,23 @@ class ServiceHistory extends React.Component{
             },
         };
         const response = await fetch(searchUrl, fetchConfig);
-        if (response.ok){
-            const data = await response.json()
+        if (response.ok) {
+            const data = await response.json();
             this.setState({
                 appointments: data.appointments,
                 noAppointments: false,
-            })
+            });
         } else {
-            appointments: [],
-            noAppointments: true,
-        })
+            // appointments: [],;
+            // noAppointments: true,
+            // })
         }
     }
-    handleVinChange(event){
-        const value = event.target.value
-        this.setState({vin: value})
+    handleVinChange(event) {
+        const value = event.target.value;
+        this.setState({ vin: value });
     }
-    render (){
+    render() {
 
     }
 

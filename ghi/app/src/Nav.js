@@ -31,7 +31,7 @@ function Nav() {
               </div>
               <div className="dropdown-menu" aria-labelledby="navbarServiceDropdown">
                 <NavLink className="dropdown-item" to="/path_goes_here">All appointments</NavLink>
-                <NavLink className="dropdown-item" to="/path_goes_here">Service history</NavLink>
+                <NavLink className="dropdown-item" to="/service_history">Service history</NavLink>
                 <div className="dropdown-divider"></div>
                 <NavLink className="dropdown-item" to="/new_service">New service appointment</NavLink>
                 <NavLink className="dropdown-item" to="/new_technician">New technician</NavLink>

@@ -12,6 +12,7 @@ class ServiceForm extends React.Component {
       technicians: [],
       reason: "",
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeVin = this.handleChangeVin.bind(this);
     this.handleChangeCustomerName = this.handleChangeCustomerName.bind(this);
@@ -34,7 +35,10 @@ class ServiceForm extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     const data = { ...this.state };
-
+    const employee_id = data.technician;
+    data.employee_id = employee_id;
+    delete data.techinican;
+    delete data.technicians;
     const serviceUrl = 'http://localhost:8080/api/services/';
     const fetchConfig = {
       method: "post",

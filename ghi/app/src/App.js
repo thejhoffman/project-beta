@@ -12,6 +12,7 @@ import AutomobileForm from './inventory/AutomobileForm';
 import TechnicianForm from './service/TechnicianForm';
 import TechnicianList from './service/TechnicianList';
 import ServiceForm from './service/ServiceForm';
+import ServiceHistory from './service/ServiceHistory';
 // Sales imports
 import RecordList from './sales/RecordList';
 import RecordHistory from './sales/RecordHistory';
@@ -37,6 +38,7 @@ function App() {
           <Route path="/new_technician" element={<TechnicianForm />} />
           <Route path="/technicians" element={<TechnicianList />} />
           <Route path="/new_service" element={<ServiceForm />} />
+          <Route path="/service_history" element={<ServiceHistory />} />
           {/* Sales Routes */}
           <Route path="/records" element={<RecordList />} />
           <Route path="/record_history" element={<RecordHistory />} />

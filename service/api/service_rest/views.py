@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .models import AutomobileVO, Technician, Service
-from common.json import ModelEncoder
 from .encoders import AutomobileVO, TechnicianEncoder, ServiceDetailEncoder, ServiceListEncoder
 import json
 
@@ -87,12 +86,15 @@ def api_service_appointments(request):
             safe=False,
         )
     else:
-        try:
             # i think i just figured it out, my service form does not have a technician
             # but I am trying to add one where it doesn't exist -_-
             content = json.loads(request.body)
+        try:
             technician = Technician.objects.get(
                 employee_id=content["employee_id"])
+            vin = content["vin"]
+
+            content["vin"] = AutomobileVO.objects.get(vin=vin)
             content["technician"] = technician
             service = Service.objects.create(**content)
             return JsonResponse(
@@ -100,10 +102,10 @@ def api_service_appointments(request):
                 encoder=ServiceDetailEncoder,
                 safe=False,
             )
-        except Technician.DoesNotExist:
-            return JsonResponse(
-                {"message": "Invalid technician id"},
-                status=400,
+    except Technician.DoesNotExist:
+        return JsonResponse(
+            {"message": "Invalid technician id"},
+            status=400,
             )
 
         # content = json.loads(request.body)
