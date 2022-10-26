@@ -3,34 +3,36 @@ import React, { useState, useEffect } from 'react';
 const RecordHistory = (props) => {
   const [records, setRecords] = useState([]);
   const [staff, setStaff] = useState([]);
-  const [salesPerson, setSalesPerson] = useState("");
+  const [salesPersonID, setSalesPersonID] = useState("");
 
+  // effect for getting initial list of staff members
   useEffect(() => {
-    async function fetchData() {
-      const urls = [
-        'http://localhost:8090/api/sales/records/',
-        'http://localhost:8090/api/sales/staff/'
-      ];
-      const requests = urls.map(url => fetch(url));
-      const responses = await Promise.all(requests);
-      responses.forEach(async response => {
-        if (response.ok) {
-          const data = await response.json();
-          if (data.records) setRecords(data.records);
-          if (data.staff) {
-            setStaff(data.staff);
-            setSalesPerson(data.staff[0].name);
-          }
-        }
-      });
+    async function fetchStaffData() {
+      const response = await fetch('http://localhost:8090/api/sales/staff/');
+      if (response.ok) {
+        const data = await response.json();
+        setStaff(data.staff);
+        setSalesPersonID(data.staff[0].id);
+      }
     }
-    fetchData();
+    fetchStaffData();
   }, []);
 
   const handleSalesPerson = (event) => {
-    setSalesPerson(event.target.value);
-
+    setSalesPersonID(event.target.value);
   };
+
+  // effect for updating records base of change in salesPersonID state
+  useEffect(() => {
+    async function fetchRecordData() {
+      const response = await fetch(`http://localhost:8090/api/sales/staff/${salesPersonID}/records/`);
+      if (response.ok) {
+        const data = await response.json();
+        setRecords(data.records);
+      }
+    }
+    if (salesPersonID !== "") fetchRecordData();
+  }, [salesPersonID]);
 
   return (
     <div className="container mt-2">
@@ -38,7 +40,7 @@ const RecordHistory = (props) => {
       <div className="mb-3">
         <select
           onChange={handleSalesPerson}
-          value={salesPerson}
+          value={salesPersonID}
           className="form-select"
           required
           id="vin"
@@ -46,8 +48,8 @@ const RecordHistory = (props) => {
         >
           {staff.map(staffMember => {
             return (
-              <option key={staffMember.id} value={staffMember.name}>
-                {staffMember.name}
+              <option key={staffMember.id} value={staffMember.id}>
+                {`${staffMember.employee_number} - ${staffMember.name}`}
               </option>
             );
           })}
@@ -63,21 +65,19 @@ const RecordHistory = (props) => {
           </tr>
         </thead>
         <tbody>
-          {records
-            .filter(record => record.sales_person === salesPerson)
-            .map((record, index) => {
-              const price = Number(record.price).toLocaleString(
-                'en-US', { maximumFractionDigits: 2 }
-              );
-              return (
-                <tr key={index}>
-                  <td>{record.sales_person}</td>
-                  <td>{record.customer}</td>
-                  <td>{record.vin}</td>
-                  <td>{`$${price}`}</td>
-                </tr>
-              );
-            })}
+          {records.map((record, index) => {
+            const price = Number(record.price).toLocaleString(
+              'en-US', { maximumFractionDigits: 2 }
+            );
+            return (
+              <tr key={index}>
+                <td>{record.sales_person.name}</td>
+                <td>{record.customer.name}</td>
+                <td>{record.vin.vin}</td>
+                <td>{`$${price}`}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
