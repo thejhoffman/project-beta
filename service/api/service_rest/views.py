@@ -118,7 +118,7 @@ def api_service_appointments(request):
 # "Detail" service request
 
 
-@require_http_methods(["DELETE", "GET", "POST"])
+@require_http_methods(["DELETE", "GET", "PUT"])
 def api_service_appointment(request, pk):
     if request.method == "GET":
         try:
