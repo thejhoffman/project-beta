@@ -25,5 +25,5 @@ class Service(models.Model):
         related_name="appointment",
         on_delete=models.PROTECT,
     )
-    reason = models.CharField(max_length=200)
+    reason = models.TextField(null=True)
     finished = models.BooleanField(default=False)
