@@ -26,11 +26,10 @@ const AutomobileForm = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = { ...formData };
     const url = 'http://localhost:8100/api/automobiles/';
     const fetchConfig = {
       method: "post",
-      body: JSON.stringify(data),
+      body: JSON.stringify(formData),
       headers: {
         'Content-Type': 'application/json',
       }

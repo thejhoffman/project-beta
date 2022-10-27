@@ -12,11 +12,10 @@ const StaffForm = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = { ...formData };
     const url = 'http://localhost:8090/api/sales/staff/';
     const fetchConfig = {
       method: "post",
-      body: JSON.stringify(data),
+      body: JSON.stringify(formData),
       headers: {
         'Content-Type': 'application/json',
       }
