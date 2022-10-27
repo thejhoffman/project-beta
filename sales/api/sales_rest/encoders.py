@@ -5,12 +5,13 @@ from .models import SalesPerson, SalesCustomer, SalesRecord, AutomobileVO
 class AutomobileVOEncoder(ModelEncoder):
     model = AutomobileVO
     properties = [
+        "id",
         "import_href",
         "vin",
     ]
 
 
-class SalesPersonListEncoder(ModelEncoder):
+class SalesPersonEncoder(ModelEncoder):
     model = SalesPerson
     properties = [
         "id",
@@ -19,24 +20,7 @@ class SalesPersonListEncoder(ModelEncoder):
     ]
 
 
-class SalesPersonDetailEncoder(ModelEncoder):
-    model = SalesPerson
-    properties = [
-        "id",
-        "name",
-        "employee_number",
-    ]
-
-
-class SalesCustomerListEncoder(ModelEncoder):
-    model = SalesCustomer
-    properties = [
-        "id",
-        "name",
-    ]
-
-
-class SalesCustomerDetailEncoder(ModelEncoder):
+class SalesCustomerEncoder(ModelEncoder):
     model = SalesCustomer
     properties = [
         "id",
@@ -46,34 +30,18 @@ class SalesCustomerDetailEncoder(ModelEncoder):
     ]
 
 
-class SalesRecordListEncoder(ModelEncoder):
-    model = SalesRecord
-    properties = [
-        "price",
-        "vin",
-        "sales_person",
-        "customer",
-    ]
-
-    encoders = {
-        "vin": AutomobileVOEncoder(),
-        "sales_person": SalesPersonDetailEncoder(),
-        "customer": SalesCustomerDetailEncoder(),
-    }
-
-
-class SalesRecordDetailEncoder(ModelEncoder):
+class SalesRecordEncoder(ModelEncoder):
     model = SalesRecord
     properties = [
         "id",
         "price",
-        "vin",
+        "automobile",
         "sales_person",
         "customer",
     ]
 
     encoders = {
-        "vin": AutomobileVOEncoder(),
-        "sales_person": SalesPersonDetailEncoder(),
-        "customer": SalesCustomerDetailEncoder(),
+        "automobile": AutomobileVOEncoder(),
+        "sales_person": SalesPersonEncoder(),
+        "customer": SalesCustomerEncoder(),
     }

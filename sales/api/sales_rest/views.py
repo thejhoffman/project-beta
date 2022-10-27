@@ -3,12 +3,9 @@ from django.views.decorators.http import require_http_methods
 import json
 
 from .encoders import (
-    SalesPersonListEncoder,
-    SalesPersonDetailEncoder,
-    SalesCustomerListEncoder,
-    SalesCustomerDetailEncoder,
-    SalesRecordListEncoder,
-    SalesRecordDetailEncoder,
+    SalesPersonEncoder,
+    SalesCustomerEncoder,
+    SalesRecordEncoder,
 )
 from .models import SalesPerson, SalesCustomer, SalesRecord, AutomobileVO
 
@@ -19,14 +16,14 @@ def api_persons(request):
         staff = SalesPerson.objects.all()
         return JsonResponse(
             {"staff": staff},
-            encoder=SalesPersonListEncoder,
+            encoder=SalesPersonEncoder,
         )
     else:
         content = json.loads(request.body)
         sales_person = SalesPerson.objects.create(**content)
         return JsonResponse(
             sales_person,
-            encoder=SalesPersonDetailEncoder,
+            encoder=SalesPersonEncoder,
             safe=False,
         )
 
@@ -38,7 +35,7 @@ def api_person(request, pk):
             sales_person = SalesPerson.objects.get(id=pk)
             return JsonResponse(
                 sales_person,
-                encoder=SalesPersonDetailEncoder,
+                encoder=SalesPersonEncoder,
                 safe=False,
             )
         except SalesPerson.DoesNotExist:
@@ -51,7 +48,7 @@ def api_person(request, pk):
             sales_person.delete()
             return JsonResponse(
                 sales_person,
-                encoder=SalesPersonDetailEncoder,
+                encoder=SalesPersonEncoder,
                 safe=False,
             )
         except SalesPerson.DoesNotExist:
@@ -70,7 +67,7 @@ def api_person(request, pk):
             sales_person.save()
             return JsonResponse(
                 sales_person,
-                encoder=SalesPersonDetailEncoder,
+                encoder=SalesPersonEncoder,
                 safe=False,
             )
         except SalesPerson.DoesNotExist:
@@ -85,14 +82,14 @@ def api_customers(request):
         customers = SalesCustomer.objects.all()
         return JsonResponse(
             {"customers": customers},
-            encoder=SalesCustomerListEncoder,
+            encoder=SalesCustomerEncoder,
         )
     else:
         content = json.loads(request.body)
         customer = SalesCustomer.objects.create(**content)
         return JsonResponse(
             customer,
-            encoder=SalesCustomerDetailEncoder,
+            encoder=SalesCustomerEncoder,
             safe=False,
         )
 
@@ -104,7 +101,7 @@ def api_customer(request, pk):
             customer = SalesCustomer.objects.get(id=pk)
             return JsonResponse(
                 customer,
-                encoder=SalesCustomerDetailEncoder,
+                encoder=SalesCustomerEncoder,
                 safe=False,
             )
         except SalesCustomer.DoesNotExist:
@@ -117,7 +114,7 @@ def api_customer(request, pk):
             customer.delete()
             return JsonResponse(
                 customer,
-                encoder=SalesCustomerDetailEncoder,
+                encoder=SalesCustomerEncoder,
                 safe=False,
             )
         except SalesCustomer.DoesNotExist:
@@ -136,7 +133,7 @@ def api_customer(request, pk):
             customer.save()
             return JsonResponse(
                 customer,
-                encoder=SalesCustomerDetailEncoder,
+                encoder=SalesCustomerEncoder,
                 safe=False,
             )
         except SalesCustomer.DoesNotExist:
@@ -155,7 +152,7 @@ def api_records(request, staff_id=None):
             records = SalesRecord.objects.all()
         return JsonResponse(
             {"records": records},
-            encoder=SalesRecordListEncoder,
+            encoder=SalesRecordEncoder,
         )
     else:
         try:
@@ -172,7 +169,7 @@ def api_records(request, staff_id=None):
             record = SalesRecord.objects.create(**content)
             return JsonResponse(
                 record,
-                encoder=SalesRecordDetailEncoder,
+                encoder=SalesRecordEncoder,
                 safe=False,
             )
         except (
@@ -199,7 +196,7 @@ def api_record(request, pk):
             record = SalesRecord.objects.get(id=pk)
             return JsonResponse(
                 record,
-                encoder=SalesRecordDetailEncoder,
+                encoder=SalesRecordEncoder,
                 safe=False,
             )
         except SalesRecord.DoesNotExist:
@@ -212,7 +209,7 @@ def api_record(request, pk):
             record.delete()
             return JsonResponse(
                 record,
-                encoder=SalesRecordDetailEncoder,
+                encoder=SalesRecordEncoder,
                 safe=False,
             )
         except SalesRecord.DoesNotExist:
@@ -241,7 +238,7 @@ def api_record(request, pk):
             record.save()
             return JsonResponse(
                 record,
-                encoder=SalesRecordDetailEncoder,
+                encoder=SalesRecordEncoder,
                 safe=False,
             )
         except (
