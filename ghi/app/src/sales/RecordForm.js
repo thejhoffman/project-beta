@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const RecordForm = (props) => {
   const [formData, setFormData] = useState({
-    vin: "",
+    automobile: "",
     sales_person: "",
     customer: "",
     price: ""
@@ -52,9 +52,9 @@ const RecordForm = (props) => {
 
     const response = await fetch(url, fetchConfig);
     if (response.ok) {
-      setVinsList([...vinsList, formData.vin]);
+      setVinsList([...vinsList, formData.automobile]);
       setFormData({
-        vin: "",
+        automobile: "",
         sales_person: "",
         customer: "",
         price: ""
@@ -72,11 +72,11 @@ const RecordForm = (props) => {
               <div className="mb-3">
                 <select
                   onChange={handleFormData}
-                  value={formData.vin}
+                  value={formData.automobile}
                   className="form-select"
                   required
-                  id="vin"
-                  name="vin"
+                  id="automobile"
+                  name="automobile"
                 >
                   <option value="">Choose an automobile</option>
                   {automobiles

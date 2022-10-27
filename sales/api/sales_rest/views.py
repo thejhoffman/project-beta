@@ -158,11 +158,11 @@ def api_records(request, staff_id=None):
         try:
             content = json.loads(request.body)
 
-            vin_num = content["vin"]
+            vin_num = content["automobile"]
             sales_person_id = content["sales_person"]
             customer_id = content["customer"]
 
-            content["vin"] = AutomobileVO.objects.get(vin=vin_num)
+            content["automobile"] = AutomobileVO.objects.get(vin=vin_num)
             content["sales_person"] = SalesPerson.objects.get(id=sales_person_id)
             content["customer"] = SalesCustomer.objects.get(id=customer_id)
 
