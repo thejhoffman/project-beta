@@ -96,9 +96,10 @@ def api_service_appointments(request):
         content = json.loads(request.body)
         try:
             technician = Technician.objects.get(employee_id=content["employee_id"])
-            vin = content["vin"]
+            # vin = content["vin"]
 
-            content["vin"] = AutomobileVO.objects.get(vin=vin)
+            # content["vin"] = AutomobileVO.objects.get(vin=vin)
+            # content["vin"] = vin
             content["technician"] = technician
             service = Service.objects.create(**content)
             return JsonResponse(
