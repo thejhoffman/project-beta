@@ -97,6 +97,11 @@ def api_service_appointments(request):
             content = json.loads(request.body)
             technician = Technician.objects.get(employee_id=content["technician"])
             content["technician"] = technician
+            try:
+                AutomobileVO.objects.get(vin=content["vin"])
+                content["vip"] = True
+            except AutomobileVO.DoesNotExist:
+                pass
             service = Service.objects.create(**content)
             return JsonResponse(
                 service,
