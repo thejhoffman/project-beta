@@ -93,14 +93,8 @@ def api_service_appointments(request):
     else:
         # i think i just figured it out, my service form does not have a technician
         # but I am trying to add one where it doesn't exist -_-
-        content = json.loads(request.body)
         try:
-            technician = Technician.objects.get(employee_id=content["employee_id"])
-            # vin = content["vin"]
-
-            # content["vin"] = AutomobileVO.objects.get(vin=vin)
-            # content["vin"] = vin
-            content["technician"] = technician
+            content = json.loads(request.body)
             service = Service.objects.create(**content)
             return JsonResponse(
                 service,
