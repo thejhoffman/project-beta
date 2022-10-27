@@ -24,7 +24,7 @@ class ServiceListEncoder(ModelEncoder):
         "time",
         "technician",
         "reason",
-        "is_vip",
+        "vip",
     ]
     encoders = {
         "technician": TechnicianEncoder(),
@@ -42,6 +42,7 @@ class ServiceDetailEncoder(ModelEncoder):
         "technician",
         "reason",
         "finished",
+        "vip",
     ]
     encoders = {
         "technician": TechnicianEncoder(),
