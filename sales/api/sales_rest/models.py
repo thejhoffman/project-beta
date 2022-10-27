@@ -39,7 +39,7 @@ class SalesCustomer(models.Model):
 
 
 class SalesRecord(models.Model):
-    vin = models.ForeignKey(
+    automobile = models.ForeignKey(
         AutomobileVO,
         related_name="sales_record",
         on_delete=models.PROTECT,
