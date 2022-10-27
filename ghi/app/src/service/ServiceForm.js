@@ -5,7 +5,7 @@ class ServiceForm extends React.Component {
     super(props);
     this.state = {
       vin: "",
-      customer_name: "",
+      customer: "",
       date: "",
       time: "",
       technician: "",
@@ -37,7 +37,7 @@ class ServiceForm extends React.Component {
     const data = { ...this.state };
     const employee_id = data.technician;
     data.employee_id = employee_id;
-    delete data.techinican;
+    delete data.technician;
     delete data.technicians;
     const serviceUrl = 'http://localhost:8080/api/services/';
     const fetchConfig = {
@@ -63,7 +63,7 @@ class ServiceForm extends React.Component {
   }
   handleChangeCustomerName(event) {
     const value = event.target.value;
-    this.setState({ customer_name: value });
+    this.setState({ customer: value });
   }
   handleChangeVin(event) {
     const value = event.target.value;
