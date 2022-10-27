@@ -95,6 +95,8 @@ def api_service_appointments(request):
         # but I am trying to add one where it doesn't exist -_-
         try:
             content = json.loads(request.body)
+            technician = Technician.objects.get(employee_id=content["technician"])
+            content["technician"] = technician
             service = Service.objects.create(**content)
             return JsonResponse(
                 service,

@@ -35,10 +35,11 @@ class ServiceForm extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     const data = { ...this.state };
-    const employee_id = data.technician;
-    data.employee_id = employee_id;
-    delete data.technician;
+    // const employee_id = data.technician;
+    // data.employee_id = employee_id;
+    // delete data.technician;
     delete data.technicians;
+
     const serviceUrl = 'http://localhost:8080/api/services/';
     const fetchConfig = {
       method: "post",
