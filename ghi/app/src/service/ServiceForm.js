@@ -97,7 +97,7 @@ class ServiceForm extends React.Component {
                 <label htmlFor="vin">Vin</label>
               </div>
               <div className="form-floating mb-3">
-                <input onChange={this.handleChangeCustomerName} value={this.state.customer_name} placeholder="Customer Name" required type="text" name="customer_name" id="customer_name" className="form-control" />
+                <input onChange={this.handleChangeCustomerName} value={this.state.customer} placeholder="Customer Name" required type="text" name="customer_name" id="customer" className="form-control" />
                 <label htmlFor="customer_name">Name</label>
               </div>
               <div className="form-floating mb-3">
