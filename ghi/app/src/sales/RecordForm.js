@@ -28,7 +28,7 @@ const RecordForm = (props) => {
           if (data.autos) setAutomobiles(data.autos);
           if (data.staff) setStaff(data.staff);
           if (data.customers) setCustomers(data.customers);
-          if (data.records) setVinsList(data.records.map(record => record.vin.vin));
+          if (data.records) setVinsList(data.records.map(record => record.automobile.vin));
         }
       });
     }
