@@ -2,7 +2,12 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .models import AutomobileVO, Technician, Service
-from .encoders import AutomobileVO, TechnicianEncoder, ServiceDetailEncoder, ServiceListEncoder
+from .encoders import (
+    AutomobileVO,
+    TechnicianEncoder,
+    ServiceDetailEncoder,
+    ServiceListEncoder,
+)
 import json
 
 
@@ -25,11 +30,10 @@ def api_technicians(request):
                 safe=False,
             )
         except:
-            response = JsonResponse(
-                {"message": "Could not create technician"}
-            )
+            response = JsonResponse({"message": "Could not create technician"})
             response.status_code = 400
             return response
+
 
 # Update technician. Primary Key
 
@@ -73,6 +77,7 @@ def api_technician(request, pk):
             response.status_code = 404
             return response
 
+
 # Get service request, create service request
 
 
@@ -90,8 +95,7 @@ def api_service_appointments(request):
         # but I am trying to add one where it doesn't exist -_-
         content = json.loads(request.body)
         try:
-            technician = Technician.objects.get(
-                employee_id=content["employee_id"])
+            technician = Technician.objects.get(employee_id=content["employee_id"])
             vin = content["vin"]
 
             content["vin"] = AutomobileVO.objects.get(vin=vin)
@@ -108,31 +112,6 @@ def api_service_appointments(request):
                 status=400,
             )
 
-        # content = json.loads(request.body)
-        # employee_id = content["technician"]
-        # try:
-        #     technician = Technician.objects.get(employee_id=employee_id)
-        #     content["technician"] = technician
-        # except Technician.DoesNotExist:
-        #     response = JsonResponse({"message": "Technician does not exist !"})
-        #     response.status_code = 404
-        #     return response
-
-        # except:
-        #     pass
-        #     service_appointment = Service.objects.create(**content)
-        #     return JsonResponse(
-        #         service,
-        #         encoder=ServiceDetailEncoder,
-        #         safe=False,
-
-        #     )
-        # except:
-        #         response = JsonResponse(
-        #             {"message": "Could not create the appointment."}
-        #         )
-        #         response.status_code = 400
-        #         return response
 
 # "Detail" service request
 
@@ -142,11 +121,7 @@ def api_service_appointment(request, pk):
     if request.method == "GET":
         try:
             model = Service.objects.get(id=pk)
-            return JsonResponse(
-                model,
-                encoder=ServiceDetailEncoder,
-                safe=False
-            )
+            return JsonResponse(model, encoder=ServiceDetailEncoder, safe=False)
         except Service.DoesNotExist:
             response = JsonResponse({"message": "Appointment does not exist"})
             response.status_code = 404
