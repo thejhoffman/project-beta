@@ -109,7 +109,7 @@ def api_service_appointments(request):
             )
         except Technician.DoesNotExist:
             return JsonResponse(
-                {"message": "Invalid technician id"},
+                {"message": "Technician not in system"},
                 status=400,
             )
 

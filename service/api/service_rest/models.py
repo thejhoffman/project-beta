@@ -2,8 +2,7 @@ from django.db import models
 
 
 class AutomobileVO(models.Model):
-    vin = models.CharField(max_length=17)
-    vip = models.BooleanField(default=False)
+    vin = models.CharField(max_length=17, unique=True)
     import_href = models.CharField(unique=True, max_length=200)
 
 
@@ -16,6 +15,7 @@ class Technician(models.Model):
 
 
 class Service(models.Model):
+    vip = models.BooleanField(default=False)
     vin = models.CharField(max_length=17)
     customer = models.CharField(max_length=100)
     date = models.DateField()
