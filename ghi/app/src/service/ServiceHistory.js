@@ -37,7 +37,9 @@ class ServiceHistory extends React.Component {
           <div className="col">
             <input onChange={this.handleVinChange} className="form-control" type="text"></input>
           </div>
-
+          <div className="col-auto">
+            <button className="btn btn-primary">Search VIN</button>
+          </div>
         </form>
         <table className="table table-striped">
           <thead>

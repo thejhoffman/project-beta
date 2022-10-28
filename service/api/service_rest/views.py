@@ -115,9 +115,6 @@ def api_service_appointments(request):
             )
 
 
-# "Detail" service request
-
-
 @require_http_methods(["DELETE", "GET", "PUT"])
 def api_service_appointment(request, pk):
     if request.method == "GET":
@@ -149,7 +146,6 @@ def api_service_appointment(request, pk):
                 encoder=ServiceDetailEncoder,
                 safe=False,
             )
-
         except Service.DoesNotExist:
             response = JsonResponse({"message": "Appointment does not exist"})
             response.status_code = 404
