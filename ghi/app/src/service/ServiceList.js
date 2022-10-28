@@ -1,7 +1,7 @@
 import React from "react";
 
 class ServiceList extends React.Component {
-  constructor () {
+  constructor() {
     super();
     this.state = {
       VIN: "",
@@ -87,8 +87,8 @@ class ServiceList extends React.Component {
                   <td>{appointment.time}</td>
                   <td>{appointment.technician.name}</td>
                   <td>{appointment.reason}</td>
-                  <td><button className="btn btn-danger" onClick={(event) => this.cancelAppointment(appointment.id, event)} value={appointment.id}></button>Cancel</td>
-                  <td><button className="btn btn-success" onClick={(event) => this.finishedAppointment(appointment.id, event)} value={appointment.id}></button>Finished</td>
+                  <td><button className="btn btn-danger btn-sm" onClick={(event) => this.cancelAppointment(appointment.id, event)} value={appointment.id}>Cancel</button></td>
+                  <td><button className="btn btn-success btn-sm" onClick={(event) => this.finishedAppointment(appointment.id, event)} value={appointment.id}>Finished</button></td>
                 </tr>
               );
             })}
