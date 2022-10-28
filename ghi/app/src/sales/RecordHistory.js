@@ -22,7 +22,7 @@ const RecordHistory = (props) => {
     setSalesPersonID(event.target.value);
   };
 
-  // effect for updating records base of change in salesPersonID state
+  // effect for updating records based off of change in salesPersonID state
   useEffect(() => {
     async function fetchRecordData() {
       const response = await fetch(`http://localhost:8090/api/sales/staff/${salesPersonID}/records/`);

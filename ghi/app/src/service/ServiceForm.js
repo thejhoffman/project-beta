@@ -35,9 +35,6 @@ class ServiceForm extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     const data = { ...this.state };
-    // const employee_id = data.technician;
-    // data.employee_id = employee_id;
-    // delete data.technician;
     delete data.technicians;
 
     const serviceUrl = 'http://localhost:8080/api/services/';
@@ -50,7 +47,6 @@ class ServiceForm extends React.Component {
     };
     const response = await fetch(serviceUrl, fetchConfig);
     if (response.ok) {
-      // const newService = await response.json();
       this.setState({
         customer: "",
         vin: "",

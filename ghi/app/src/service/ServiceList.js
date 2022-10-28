@@ -11,7 +11,6 @@ class ServiceList extends React.Component {
       technician: "",
       appointments: [],
       Reason: "",
-      // technicians: [],
     };
     this.cancelAppointment = this.cancelAppointment.bind(this);
     this.finishedAppointment = this.finishedAppointment.bind(this);
