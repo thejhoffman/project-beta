@@ -26,7 +26,6 @@ class ServiceList extends React.Component {
       const appointments = data.services;
       const filteredAppointments = appointments.filter(appointment => appointment.finished === false);
       this.setState({ appointments: filteredAppointments });
-      console.log(appointments);
     }
   }
   async cancelAppointment(event) {
