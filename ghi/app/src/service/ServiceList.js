@@ -75,7 +75,12 @@ class ServiceList extends React.Component {
             {this.state.appointments.map(appointment => {
               return (
                 <tr key={appointment.id}>
-                  <td>{appointment.vip}</td>
+                  <td> <img
+                    className={"me-1 mb-1 " + (appointment.vip ? "" : "d-none")}
+                    src="https://cdn-icons-png.flaticon.com/512/2521/2521013.png"
+                    height="20"
+                    alt="vip"
+                  /></td>
                   <td>{appointment.vin}</td>
                   <td>{appointment.customer}</td>
                   <td>{appointment.date}</td>
