@@ -5,30 +5,30 @@ Team:
 * James Hoffman - Which microservice? - Sales
 
 ## Design
-
+![Excalidraw Visualization](domain-design.png)
 
 ## Service microservice
 
 Models:
 
-AutomobileVO - This model is the model that holds the data recieved from the poller from the inventory microservice.  I used the fields below
+AutomobileVO - This model is the model that holds the data received from the poller from the inventory microservice.  I used the fields below
 - import_href
 - vin
 
-Technician model has the below fields.  With this model I was able to use the information to attach technicians to vins from the Invenotry microservice and attach them to service appointments in the Service Inventory.
+Technician model has the below fields.  With this model I was able to use the information to attach technicians to vins from the Inventory microservice and attach them to service appointments in the Service Inventory.
 -  name
 - employee_id
 
 I used two API endpoints:
-  - List all techinicians (GET, POST)
-  - Detail of a techinician (GET, DELETE)
+  - List all technicians (GET, POST)
+  - Detail of a technician (GET, DELETE)
 
 
-Service model has the below fields.    With this model I was able to use the information to make Service forms and populate the information.  This model interacted with the Technicianm model as it pulled the technician name and employee id number.  This model interacted with the Inventory microservice database to check if VIN numbers were already in the system so I could identify customers that were VIP.
+Service model has the below fields.    With this model I was able to use the information to make Service forms and populate the information.  This model interacted with the Technicians model as it pulled the technician name and employee id number.  This model interacted with the Inventory microservice database to check if VIN numbers were already in the system so I could identify customers that were VIP.
 - VIP
 - VIN
 - Customer
-- Techincian (technician object)
+- Technician (technician object)
 - Reason
 - Finished
 I used
@@ -42,8 +42,8 @@ When a service appointment is made, there is a check to the inventory to see if 
 Frontend Functionality
 - I can view all service appointments
   - All service appointments are in the state of pending with the option to be cancelled or finished
-    - When a service is cancelled a PUT request is sent to the service API endpoint. The page releoads and only the pending appointments remain.
-    - When a service is is finished a PUT request is sent to the service API endpoint. The page relods and only the pending appointments remain.
+    - When a service is cancelled a PUT request is sent to the service API endpoint. The page reloads and only the pending appointments remain.
+    - When a service is is finished a PUT request is sent to the service API endpoint. The page reloads and only the pending appointments remain.
 - When a technician is submitted a POST request is sent to the API and a technician is added to the database.
 - When a service is submitted a POST request is sent to the API and the service appointment is added to the database with the status of the appointment automatically set to the not finished and not vip.
 
