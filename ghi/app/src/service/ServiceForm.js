@@ -50,7 +50,7 @@ class ServiceForm extends React.Component {
     };
     const response = await fetch(serviceUrl, fetchConfig);
     if (response.ok) {
-      const newService = await response.json();
+      // const newService = await response.json();
       this.setState({
         customer: "",
         vin: "",
