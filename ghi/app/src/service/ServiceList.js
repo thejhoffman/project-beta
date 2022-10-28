@@ -46,6 +46,7 @@ class ServiceList extends React.Component {
     const url = `http://localhost:8080/api/services/${event}/`;
     const fetchConfig = {
       method: "PUT",
+      body: JSON.stringify({ finished: true }),
       headers: {
         "Content-Type": "application/json"
       }
@@ -81,8 +82,8 @@ class ServiceList extends React.Component {
                   <td>{appointment.time}</td>
                   <td>{appointment.technician.name}</td>
                   <td>{appointment.reason}</td>
-                  <td><button className="btn btn-danger" onClick={this.cancelAppointment} value={appointment.id}></button>Cancel</td>
-                  <td><button className="btn btn-success" onClick={this.finishedAppointment} value={appointment.id}></button>Finished</td>
+                  <td><button className="btn btn-danger" onClick={(event) => this.cancelAppointment(appointment.id, event)} value={appointment.id}></button>Cancel</td>
+                  <td><button className="btn btn-success" onClick={(event) => this.finishedAppointment(appointment.id, event)} value={appointment.id}></button>Finished</td>
                 </tr>
               );
             })}

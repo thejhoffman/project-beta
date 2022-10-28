@@ -11,7 +11,6 @@ from .encoders import (
 import json
 
 
-# Get techinician , create technician
 @require_http_methods(["GET", "POST"])
 def api_technicians(request):
     if request.method == "GET":
@@ -33,9 +32,6 @@ def api_technicians(request):
             response = JsonResponse({"message": "Could not create technician"})
             response.status_code = 400
             return response
-
-
-# Update technician. Primary Key
 
 
 @require_http_methods(["DELETE", "GET", "PUT"])
@@ -78,9 +74,6 @@ def api_technician(request, pk):
             return response
 
 
-# Get service request, create service request
-
-
 @require_http_methods(["GET", "POST"])
 def api_service_appointments(request):
     if request.method == "GET":
@@ -91,8 +84,6 @@ def api_service_appointments(request):
             safe=False,
         )
     else:
-        # i think i just figured it out, my service form does not have a technician
-        # but I am trying to add one where it doesn't exist -_-
         try:
             content = json.loads(request.body)
             technician = Technician.objects.get(employee_id=content["technician"])
