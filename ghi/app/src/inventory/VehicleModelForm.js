@@ -1,48 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import useFetch from '../hooks/useFetch';
+import usePostForm from '../hooks/usePostForm';
 
 const VehicleModelForm = (props) => {
-  const [formData, setFormData] = useState({
+  const formStructure = {
     name: "",
     picture_url: "",
     manufacturer_id: ""
-  });
-  const [manufacturers, setManufacturers] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('http://localhost:8100/api/manufacturers/');
-      if (response.ok) {
-        const data = await response.json();
-        setManufacturers(data.manufacturers);
-      }
-    }
-    fetchData();
-  }, []);
-
-  const handleFormData = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
+  const fetchURL = 'http://localhost:8100/api/manufacturers/';
+  const postURL = 'http://localhost:8100/api/models/';
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const url = 'http://localhost:8100/api/models/';
-    const fetchConfig = {
-      method: "post",
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    };
-
-    const response = await fetch(url, fetchConfig);
-    if (response.ok) {
-      setFormData({
-        name: "",
-        picture_url: "",
-        manufacturer_id: ""
-      });
-    }
-  };
+  const [formData, handleFormData, handleSubmit] = usePostForm(formStructure, postURL);
+  const [manufacturers] = useFetch(fetchURL);
 
   return (
     <div className=" container mt-2">

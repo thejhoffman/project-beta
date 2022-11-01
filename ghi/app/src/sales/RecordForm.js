@@ -1,65 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import useFetch from '../hooks/useFetch';
+import usePostForm from '../hooks/usePostForm';
 
 const RecordForm = (props) => {
-  const [formData, setFormData] = useState({
+  const formStructure = {
     automobile: "",
     sales_person: "",
     customer: "",
     price: ""
-  });
-  const [automobiles, setAutomobiles] = useState([]);
-  const [staff, setStaff] = useState([]);
-  const [customers, setCustomers] = useState([]);
+  };
+  const fetchURLs = {
+    autos: 'http://localhost:8100/api/automobiles/',
+    staff: 'http://localhost:8090/api/sales/staff/',
+    customers: 'http://localhost:8090/api/sales/customers/',
+    records: 'http://localhost:8090/api/sales/records/'
+  };
+  const postURL = 'http://localhost:8090/api/sales/records/';
+
+  const [formData, handleFormData, handleSubmit] = usePostForm(formStructure, postURL);
+  const [automobiles] = useFetch(fetchURLs.autos);
+  const [staff] = useFetch(fetchURLs.staff);
+  const [customers] = useFetch(fetchURLs.customers);
+  const [records, updateRecords] = useFetch(fetchURLs.records);
+
   const [vinsList, setVinsList] = useState([]);
+  const [filteredAutos, setFilteredAutos] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
-      const urls = [
-        'http://localhost:8100/api/automobiles/',
-        'http://localhost:8090/api/sales/staff/',
-        'http://localhost:8090/api/sales/customers/',
-        'http://localhost:8090/api/sales/records/'
-      ];
-      const requests = urls.map(url => fetch(url));
-      const responses = await Promise.all(requests);
-      responses.forEach(async response => {
-        if (response.ok) {
-          const data = await response.json();
-          if (data.autos) setAutomobiles(data.autos);
-          if (data.staff) setStaff(data.staff);
-          if (data.customers) setCustomers(data.customers);
-          if (data.records) setVinsList(data.records.map(record => record.automobile.vin));
-        }
-      });
-    }
-    fetchData();
-  }, []);
+    setVinsList(records.map(record => record.automobile.vin));
+  }, [records]);
 
-  const handleFormData = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
+  useEffect(() => {
+    setFilteredAutos(automobiles.filter(auto => !vinsList.includes(auto.vin)));
+  }, [automobiles, vinsList]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const url = 'http://localhost:8090/api/sales/records/';
-    const fetchConfig = {
-      method: "post",
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    };
-
-    const response = await fetch(url, fetchConfig);
-    if (response.ok) {
-      setVinsList([...vinsList, formData.automobile]);
-      setFormData({
-        automobile: "",
-        sales_person: "",
-        customer: "",
-        price: ""
-      });
-    }
+  const handleSubmitWithUpdate = (event) => {
+    handleSubmit(event);
+    updateRecords();
   };
 
   return (
@@ -68,7 +45,7 @@ const RecordForm = (props) => {
         <div className="offset-3 col-6">
           <div className="shadow p-4 mt-4">
             <h1>Create sales record</h1>
-            <form onSubmit={handleSubmit} id="add-record-form">
+            <form onSubmit={handleSubmitWithUpdate} id="add-record-form">
               <div className="mb-3">
                 <select
                   onChange={handleFormData}
@@ -79,15 +56,13 @@ const RecordForm = (props) => {
                   name="automobile"
                 >
                   <option value="">Choose an automobile</option>
-                  {automobiles
-                    .filter(auto => !vinsList.includes(auto.vin))
-                    .map(auto => {
-                      return (
-                        <option key={auto.id} value={auto.vin}>
-                          {`${auto.year} ${auto.model.manufacturer.name} ${auto.model.name} (${auto.vin})`}
-                        </option>
-                      );
-                    })}
+                  {filteredAutos.map(auto => {
+                    return (
+                      <option key={auto.id} value={auto.vin}>
+                        {`${auto.year} ${auto.model.manufacturer.name} ${auto.model.name} (${auto.vin})`}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
