@@ -1,36 +1,13 @@
-import React, { useState } from 'react';
+import usePostForm from '../hooks/usePostForm';
 
 const CustomerForm = (props) => {
-  const [formData, setFormData] = useState({
+  const formStructure = {
     name: "",
     address: "",
     phone_number: ""
-  });
-
-  const handleFormData = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const url = 'http://localhost:8090/api/sales/customers/';
-    const fetchConfig = {
-      method: "post",
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    };
-
-    const response = await fetch(url, fetchConfig);
-    if (response.ok) {
-      setFormData({
-        name: "",
-        address: "",
-        phone_number: ""
-      });
-    }
-  };
+  const postURL = 'http://localhost:8090/api/sales/customers/';
+  const [formData, handleFormData, handleSubmit] = usePostForm(formStructure, postURL);
 
   return (
     <div className=" container mt-2">
