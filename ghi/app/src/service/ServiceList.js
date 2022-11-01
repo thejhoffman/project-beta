@@ -11,7 +11,6 @@ class ServiceList extends React.Component {
       technician: "",
       appointments: [],
       Reason: "",
-      // technicians: [],
     };
     this.cancelAppointment = this.cancelAppointment.bind(this);
     this.finishedAppointment = this.finishedAppointment.bind(this);
@@ -27,7 +26,6 @@ class ServiceList extends React.Component {
       const appointments = data.services;
       const filteredAppointments = appointments.filter(appointment => appointment.finished === false);
       this.setState({ appointments: filteredAppointments });
-      console.log(appointments);
     }
   }
   async cancelAppointment(event) {
