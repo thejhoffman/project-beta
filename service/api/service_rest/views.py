@@ -1,12 +1,9 @@
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .models import AutomobileVO, Technician, Service
 from .encoders import (
-    AutomobileVO,
     TechnicianEncoder,
-    ServiceDetailEncoder,
-    ServiceListEncoder,
+    ServiceEncoder,
 )
 import json
 
@@ -80,7 +77,7 @@ def api_service_appointments(request):
         services = Service.objects.all()
         return JsonResponse(
             {"services": services},
-            encoder=ServiceDetailEncoder,
+            encoder=ServiceEncoder,
             safe=False,
         )
     else:
@@ -96,7 +93,7 @@ def api_service_appointments(request):
             service = Service.objects.create(**content)
             return JsonResponse(
                 service,
-                encoder=ServiceDetailEncoder,
+                encoder=ServiceEncoder,
                 safe=False,
             )
         except Technician.DoesNotExist:
@@ -111,7 +108,7 @@ def api_service_appointment(request, pk):
     if request.method == "GET":
         try:
             model = Service.objects.get(id=pk)
-            return JsonResponse(model, encoder=ServiceDetailEncoder, safe=False)
+            return JsonResponse(model, encoder=ServiceEncoder, safe=False)
         except Service.DoesNotExist:
             response = JsonResponse({"message": "Appointment does not exist"})
             response.status_code = 404
@@ -122,7 +119,7 @@ def api_service_appointment(request, pk):
             model.delete()
             return JsonResponse(
                 model,
-                encoder=ServiceDetailEncoder,
+                encoder=ServiceEncoder,
                 safe=False,
             )
         except Service.DoesNotExist:
@@ -134,7 +131,7 @@ def api_service_appointment(request, pk):
             appointment = Service.objects.get(id=pk)
             return JsonResponse(
                 appointment,
-                encoder=ServiceDetailEncoder,
+                encoder=ServiceEncoder,
                 safe=False,
             )
         except Service.DoesNotExist:

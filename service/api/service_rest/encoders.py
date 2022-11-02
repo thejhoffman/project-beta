@@ -4,34 +4,23 @@ from .models import AutomobileVO, Technician, Service
 
 class AutomobileVOEncoder(ModelEncoder):
     model = AutomobileVO
-    properties = ["vip", "vin"]
+    properties = [
+        "id",
+        "import_href",
+        "vin",
+    ]
 
 
 class TechnicianEncoder(ModelEncoder):
     model = Technician
     properties = [
+        "id",
         "name",
         "employee_id",
     ]
 
 
-class ServiceListEncoder(ModelEncoder):
-    model = Service
-    properties = [
-        "vin",
-        "customer",
-        "date",
-        "time",
-        "technician",
-        "reason",
-        "vip",
-    ]
-    encoders = {
-        "technician": TechnicianEncoder(),
-    }
-
-
-class ServiceDetailEncoder(ModelEncoder):
+class ServiceEncoder(ModelEncoder):
     model = Service
     properties = [
         "id",
