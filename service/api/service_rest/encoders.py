@@ -30,6 +30,7 @@ class ServiceEncoder(ModelEncoder):
         "time",
         "technician",
         "reason",
+        "canceled",
         "finished",
         "vip",
     ]
