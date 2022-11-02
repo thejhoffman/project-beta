@@ -1,38 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import useFetch from '../hooks/useFetch';
 
 const RecordHistory = (props) => {
-  const [records, setRecords] = useState([]);
-  const [staff, setStaff] = useState([]);
-  const [salesPersonID, setSalesPersonID] = useState("");
+  const [salesPersonID, setSalesPersonID] = useState("0");
+  const fetchURLs = {
+    staff: 'http://localhost:8090/api/sales/staff/',
+    records: `http://localhost:8090/api/sales/staff/${salesPersonID}/records/`
+  };
+  const [records] = useFetch(fetchURLs.records);
+  const [staff] = useFetch(fetchURLs.staff);
 
-  // effect for getting initial list of staff members
   useEffect(() => {
-    async function fetchStaffData() {
-      const response = await fetch('http://localhost:8090/api/sales/staff/');
-      if (response.ok) {
-        const data = await response.json();
-        setStaff(data.staff);
-        setSalesPersonID(data.staff[0].id);
-      }
-    }
-    fetchStaffData();
-  }, []);
+    if (staff.length > 0)
+      setSalesPersonID(staff[0].id);
+  }, [staff]);
 
   const handleSalesPerson = (event) => {
     setSalesPersonID(event.target.value);
   };
-
-  // effect for updating records based off of change in salesPersonID state
-  useEffect(() => {
-    async function fetchRecordData() {
-      const response = await fetch(`http://localhost:8090/api/sales/staff/${salesPersonID}/records/`);
-      if (response.ok) {
-        const data = await response.json();
-        setRecords(data.records);
-      }
-    }
-    if (salesPersonID !== "") fetchRecordData();
-  }, [salesPersonID]);
 
   return (
     <div className="container mt-2">
