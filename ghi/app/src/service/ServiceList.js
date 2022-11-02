@@ -1,101 +1,89 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import useFetch from "../hooks/useFetch";
 
-class ServiceList extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      VIN: "",
-      customer: "",
-      date: "",
-      time: "",
-      technician: "",
-      appointments: [],
-      Reason: "",
-    };
-    this.cancelAppointment = this.cancelAppointment.bind(this);
-    this.finishedAppointment = this.finishedAppointment.bind(this);
-  }
+const ServiceList = (props) => {
+  const fetchURL = 'http://localhost:8080/api/services';
+  const [appointments, updateAppointments] = useFetch(fetchURL);
+  const [filteredAppointments, setFilteredAppointments] = useState([]);
 
-  async componentDidMount() {
-    const appointmentUrl = 'http://localhost:8080/api/services';
+  // const filteredAppointments = appointments.filter(appointment => appointment.finished === false);
 
-    const response = await fetch(appointmentUrl);
+  useEffect(() => {
+    setFilteredAppointments(appointments.filter(appointment => {
+      return !(appointment.canceled || appointment.finished);
+    }));
+  }, [appointments]);
 
-    if (response.ok) {
-      const data = await response.json();
-      const appointments = data.services;
-      const filteredAppointments = appointments.filter(appointment => appointment.finished === false);
-      this.setState({ appointments: filteredAppointments });
-    }
-  }
-  async cancelAppointment(event) {
-    const url = `http://localhost:8080/api/services/${event}/`;
-    const fetchConfig = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    await fetch(url, fetchConfig);
-    this.componentDidMount();
-
-  }
-  async finishedAppointment(event) {
-    const url = `http://localhost:8080/api/services/${event}/`;
+  const handleButtons = async (e) => {
+    const url = `http://localhost:8080/api/services/${e.target.value}/`;
     const fetchConfig = {
       method: "PUT",
-      body: JSON.stringify({ finished: true }),
-      headers: {
-        "Content-Type": "application/json"
-      }
+      body: JSON.stringify({ [e.target.name]: true }),
+      headers: { "Content-Type": "application/json" }
     };
-    await fetch(url, fetchConfig);
-    this.componentDidMount();
-  }
+    const response = await fetch(url, fetchConfig);
+    if (response.ok) {
+      updateAppointments();
+    }
+  };
 
-  render() {
-    return (
-      <div className="container">
-        <h1>Service Appointments</h1>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th> VIP </th>
-              <th> VIN </th>
-              <th> Customer </th>
-              <th> Date </th>
-              <th> Time </th>
-              <th> Technician </th>
-              <th> Reason </th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.appointments.map(appointment => {
-              return (
-                <tr key={appointment.id}>
-                  <td> <img
-                    className={"me-1 mb-1 " + (appointment.vip ? "" : "d-none")}
-                    src="https://cdn-icons-png.flaticon.com/512/2521/2521013.png"
-                    height="20"
-                    alt="vip"
-                  /></td>
-                  <td>{appointment.vin}</td>
-                  <td>{appointment.customer}</td>
-                  <td>{appointment.date}</td>
-                  <td>{appointment.time}</td>
-                  <td>{appointment.technician.name}</td>
-                  <td>{appointment.reason}</td>
-                  <td><button className="btn btn-danger btn-sm" onClick={(event) => this.cancelAppointment(appointment.id, event)} value={appointment.id}>Cancel</button></td>
-                  <td><button className="btn btn-success btn-sm" onClick={(event) => this.finishedAppointment(appointment.id, event)} value={appointment.id}>Finished</button></td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div >
-    );
-  }
-}
-
-
+  return (
+    <div className="container">
+      <h1>Service Appointments</h1>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th> VIP </th>
+            <th> VIN </th>
+            <th> Customer </th>
+            <th> Date </th>
+            <th> Time </th>
+            <th> Technician </th>
+            <th> Reason </th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredAppointments.map(appointment => {
+            return (
+              <tr key={appointment.id}>
+                <td> <img
+                  className={"mb-1 " + (appointment.vip ? "" : "d-none")}
+                  src="https://cdn-icons-png.flaticon.com/512/2521/2521013.png"
+                  height="20"
+                  alt="vip"
+                /></td>
+                <td>{appointment.vin}</td>
+                <td>{appointment.customer}</td>
+                <td>{appointment.date}</td>
+                <td>{appointment.time}</td>
+                <td>{appointment.technician.name}</td>
+                <td>{appointment.reason}</td>
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={handleButtons}
+                    value={appointment.id}
+                    name="canceled"
+                  >
+                    Cancel
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={handleButtons}
+                    value={appointment.id}
+                    name="finished"
+                  >
+                    Finished
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div >
+  );
+};
 export default ServiceList;
