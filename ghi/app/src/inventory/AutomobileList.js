@@ -1,18 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import useFetch from '../hooks/useFetch';
 
 const AutomobileList = (props) => {
-  const [automobiles, setAutomobiles] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('http://localhost:8100/api/automobiles/');
-      if (response.ok) {
-        const data = await response.json();
-        setAutomobiles(data.autos);
-      }
-    }
-    fetchData();
-  }, []);
+  const fetchURL = 'http://localhost:8100/api/automobiles/';
+  const [automobiles] = useFetch(fetchURL);
 
   return (
     <div className="container mt-2">

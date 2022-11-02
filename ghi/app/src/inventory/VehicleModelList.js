@@ -1,18 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import useFetch from "../hooks/useFetch";
 
 const VehicleModelList = (props) => {
-  const [vehicleModels, setVehicleModels] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('http://localhost:8100/api/models/');
-      if (response.ok) {
-        const data = await response.json();
-        setVehicleModels(data.models);
-      }
-    }
-    fetchData();
-  }, []);
+  const fetchURL = 'http://localhost:8100/api/models/';
+  const [vehicleModels] = useFetch(fetchURL);
 
   const addDefaultSrc = (event) => {
     event.target.src = 'https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953.jpg';

@@ -1,18 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import useFetch from "../hooks/useFetch";
 
 const ManufacturerList = (props) => {
-  const [manufacturers, setManufacturers] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('http://localhost:8100/api/manufacturers/');
-      if (response.ok) {
-        const data = await response.json();
-        setManufacturers(data.manufacturers);
-      }
-    }
-    fetchData();
-  }, []);
+  const fetchURL = 'http://localhost:8100/api/manufacturers/';
+  const [manufacturers] = useFetch(fetchURL);
 
   return (
     <div className="container mt-2">

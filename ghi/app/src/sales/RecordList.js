@@ -1,18 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import useFetch from '../hooks/useFetch';
 
 const RecordList = (props) => {
-  const [records, setRecords] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('http://localhost:8090/api/sales/records/');
-      if (response.ok) {
-        const data = await response.json();
-        setRecords(data.records);
-      }
-    }
-    fetchData();
-  }, []);
+  const fetchURL = 'http://localhost:8090/api/sales/records/';
+  const [records] = useFetch(fetchURL);
 
   return (
     <div className="container mt-2">
