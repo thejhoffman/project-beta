@@ -26,4 +26,5 @@ class Service(models.Model):
         on_delete=models.PROTECT,
     )
     reason = models.TextField(null=True)
+    canceled = models.BooleanField(default=False)
     finished = models.BooleanField(default=False)
