@@ -146,6 +146,8 @@ def api_customer(request, pk):
 def api_records(request, staff_id=None):
     if request.method == "GET":
         if staff_id is not None:
+            if staff_id == 0:
+                return JsonResponse({"records": []})
             sales_person = SalesPerson.objects.get(id=staff_id)
             records = SalesRecord.objects.filter(sales_person=sales_person)
         else:
