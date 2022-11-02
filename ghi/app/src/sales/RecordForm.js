@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import useFetch from '../hooks/useFetch';
 import usePostForm from '../hooks/usePostForm';
 
